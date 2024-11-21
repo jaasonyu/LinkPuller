@@ -64,14 +64,18 @@ public class LinkPuller implements ActionListener {
                 );
                 String line;
                 while ( (line = reader.readLine()) != null ) {
-                    if (line.contains(searchTerm)) {
-                        int start = line.indexOf(searchTerm) - 10;
-                        while (start != -1) {
-                            int end = start + 20;
+                    if (line.contains(searchTerm) && line.contains("href")) {
+                        System.out.println("line: " + line);
+                        int start = line.indexOf("href") + 6;
+                        while ((start != -1+6)) {
+                            int end = line.indexOf("\"", start);
                             String miniLine = line.substring(start, end);
-                            System.out.println(c + ". " + miniLine);
-                            text3.append("\n" + miniLine);
-                            start = line.indexOf(searchTerm, start + 11);
+                            System.out.println("link: " + miniLine);
+                            if (miniLine.contains(searchTerm)) {
+                                System.out.println("FOUND");
+                                text3.append(miniLine + "\n");
+                            }
+                            start = line.indexOf("href", end) + 6;
                         }
                     }
                 }
